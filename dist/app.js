@@ -1,6 +1,6 @@
 // import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
 import { Modal } from "./classes/create";
-import { userKey } from "./data";
+import { userKey, Role } from "./data";
 //
 const form = document.querySelector(".form");
 const firstName = document.querySelector("#fName");
@@ -24,7 +24,9 @@ for (const col of arr1) {
 }
 const m1 = new Modal(firstName.value, middleName.value, lastName.value, phoneNumber.value, email.value, address.value, role.value);
 const arr = localStorage.getItem("user");
-const userRead = JSON.parse(arr) ? JSON.parse(arr) : [];
+const users = JSON.parse(arr) ? JSON.parse(arr) : [];
+users.forEach((el) => { el.role = +el.role; });
+const userRead = users;
 m1.createOrRead(userRead, userRead.length, "read");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -38,7 +40,7 @@ form.addEventListener("submit", (e) => {
         phoneNumber: phoneNumber.value,
         email: email.value,
         address: address.value,
-        role: role.value,
+        role: Role[role.value],
     };
     user.push(newUser);
     localStorage.setItem("user", JSON.stringify(user));

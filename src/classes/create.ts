@@ -103,24 +103,38 @@ export class Modal {
       
     });
 // handle save button
-
-let newValues :(string)[] =[]
+   
+let newValues : string[] =[]
     save?.addEventListener("click", () => {
-      editableCells.forEach((cell) => {
+      editableCells.forEach((cell,ind) => {
         cell.contentEditable = "false";
-         newValues.push(cell.innerHTML)
+         newValues.push(cell.innerHTML?cell.innerHTML:'')
       });
       let val = Object.keys(element)
       type ObjectKey = keyof typeof element;
 
       console.log(newValues)
-     for(let i =0;i<val.length;i++){
-       element[val[i] as ObjectKey] = newValues[i]
+      const newObj  = {
+        firstName:'',
+        middleName:'',
+        lastName:'',
+        phoneNumber:'',
+        email:'',
+        address:'',
+        role:''
+      }
+     for(let i =0;i<val.length;i++){    
+        //  console.log(newValues[i],newObj[val[i]as ObjectKey],"bb")
+        newObj[val[i] as ObjectKey] = newValues[i]   
      }
+
+    // const object  =  val.reduce((acc,el,ind)=>{
+    //     return {...acc ,[el]:ind}
+    //   })
   
      const getUser = localStorage.getItem('user')!
      const getUserParse = JSON.parse(getUser)?JSON.parse(getUser):[]
-     const newUser = [...getUserParse.slice(0,index),element,...getUserParse.slice(index+1)]
+     const newUser = [...getUserParse.slice(0,index),newObj,...getUserParse.slice(index+1)]
      
       localStorage.setItem('user',JSON.stringify(newUser))
       edit.parentElement?.classList.remove("d-none");

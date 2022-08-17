@@ -1,7 +1,7 @@
 // import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
 
 import { Modal } from "./classes/create";
-import { userKey, data } from "./data";
+import { userKey, data, Role } from "./data";
 
 //
 
@@ -38,7 +38,9 @@ const m1 = new Modal(
   role.value
 );
 const arr = localStorage.getItem("user")!;
-const userRead = JSON.parse(arr) ? JSON.parse(arr) : [];
+const users = JSON.parse(arr) ? JSON.parse(arr) : [];
+users.forEach((el:{[key:string]:any})=>{el.role = +el.role})
+const userRead :data[] = users
 m1.createOrRead(userRead, userRead.length, "read");
 
 form.addEventListener("submit", (e: Event) => {
@@ -47,6 +49,7 @@ form.addEventListener("submit", (e: Event) => {
   const user = JSON.parse(arr) ? JSON.parse(arr) : [];
 
   console.log(arr, "user1");
+  type roleV = keyof typeof Role;
   const newUser = {
     firstName: firstName.value,
     middleName: middleName.value,
@@ -54,7 +57,7 @@ form.addEventListener("submit", (e: Event) => {
     phoneNumber: phoneNumber.value,
     email: email.value,
     address: address.value,
-    role: role.value,
+    role: Role[role.value as roleV],
   };
   user.push(newUser);
 
@@ -72,7 +75,7 @@ form.addEventListener("submit", (e: Event) => {
 });
 
 for (let index = 0; index < userRead.length; index++) {
-  let element = userRead[index];
+  let element  = userRead[index];
   const edit = document.querySelector(`.edit${index}`)!;
   const remove = document.querySelector(`.delete${index}`)!;
 

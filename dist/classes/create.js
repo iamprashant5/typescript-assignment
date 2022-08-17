@@ -77,18 +77,31 @@ export class Modal {
         let newValues = [];
         save === null || save === void 0 ? void 0 : save.addEventListener("click", () => {
             var _a, _b;
-            editableCells.forEach((cell) => {
+            editableCells.forEach((cell, ind) => {
                 cell.contentEditable = "false";
-                newValues.push(cell.innerHTML);
+                newValues.push(cell.innerHTML ? cell.innerHTML : '');
             });
             let val = Object.keys(element);
             console.log(newValues);
+            const newObj = {
+                firstName: '',
+                middleName: '',
+                lastName: '',
+                phoneNumber: '',
+                email: '',
+                address: '',
+                role: ''
+            };
             for (let i = 0; i < val.length; i++) {
-                element[val[i]] = newValues[i];
+                //  console.log(newValues[i],newObj[val[i]as ObjectKey],"bb")
+                newObj[val[i]] = newValues[i];
             }
+            // const object  =  val.reduce((acc,el,ind)=>{
+            //     return {...acc ,[el]:ind}
+            //   })
             const getUser = localStorage.getItem('user');
             const getUserParse = JSON.parse(getUser) ? JSON.parse(getUser) : [];
-            const newUser = [...getUserParse.slice(0, index), element, ...getUserParse.slice(index + 1)];
+            const newUser = [...getUserParse.slice(0, index), newObj, ...getUserParse.slice(index + 1)];
             localStorage.setItem('user', JSON.stringify(newUser));
             (_a = edit.parentElement) === null || _a === void 0 ? void 0 : _a.classList.remove("d-none");
             (_b = remove.parentElement) === null || _b === void 0 ? void 0 : _b.classList.remove("d-none");

@@ -1,3 +1,4 @@
+export enum Role {Admin,SuperAdmin,Subscriber}
 export interface data {
     firstName:string;
     middleName:string;
@@ -5,14 +6,13 @@ export interface data {
     phoneNumber:string;
     email:string;
     address:string;
-    role:string;
+    role:Role;
     // action:string;
 
 }
 // interface valueType {
 
 // }
-// enum Role {Admin,SuperAdmin,Subscriber}
 export let userKey: data[] =[
     {firstName:'rahul',
      middleName:'',
@@ -20,7 +20,7 @@ export let userKey: data[] =[
      phoneNumber:'987654321',
      email:'rahul@mail.com',
      address:'eeerdkfd',
-     role:"",
+     role:Role.Admin,
      
     },
 
